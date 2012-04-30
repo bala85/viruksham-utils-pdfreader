@@ -12,14 +12,15 @@ import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 
-/**
- * @author star
- * 
- */
 public class PdfFormReader {
 
 	public static void main(String[] args) throws IOException,
 			COSVisitorException {
+
+		if (args.length != 1) {
+			printUsage();
+			System.exit(1);
+		}
 		PDDocument document;
 		document = PDDocument.load(args[0]);
 		if (document.isEncrypted()) {
@@ -38,5 +39,9 @@ public class PdfFormReader {
 			String fieldValue = pdField.getValue();
 			System.out.println("Name: "+fieldName+" Type: "+fieldType+" Value: "+fieldValue);
 		}
+	}
+
+	public static void printUsage() {
+		System.err.println("Usage: mvn clean compile exec:java [-Dexec.args=\"argument1\"]");
 	}
 }
